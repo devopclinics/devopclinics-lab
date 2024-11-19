@@ -1,0 +1,27 @@
+# Namespace for the resources
+namespace: labs
+
+# Deployment settings
+replicaCount: 2
+appLabel: flask-lab  # Corrected to be a single string
+
+# Image settings
+image:
+  repository: dclinics/labs-home
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Environment variables for the container
+env:
+  - name: FLASK_ENV
+    value: "production"
+
+# Service settings
+service:
+  name: flask-lab-service
+  type: NodePort
+  port: 80                # The port on which the service is exposed
+  targetPort: 5000        # The port the container listens on
+  nodePort: 30002         # The node port (for NodePort service type)
+
+# Additional settings can be added as needed

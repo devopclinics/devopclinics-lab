@@ -1,0 +1,25 @@
+repositories:
+  - name: stable
+    url: "https://charts.helm.sh/stable"
+
+releases:
+  - name: linux-user-management
+    namespace: labs
+    chart: /home/dev/linux-lab/devopclinics-lab
+    values:
+      - /home/dev/linux-lab/devopclinics-lab/services/linux/user-management/values.yaml
+    createNamespace: true
+
+  - name: linux-file-management
+    namespace: labs
+    chart: /home/dev/linux-lab/devopclinics-lab
+    values:
+      - /home/dev/linux-lab/devopclinics-lab/services/linux/file-management/values.yaml
+    createNamespace: true
+
+  # - name: lab-home-page
+  #   namespace: labs
+  #   chart: /home/dev/linux-lab/devopclinics-lab/services
+  #   values:
+  #     - /home/dev/linux-lab/devopclinics-lab/services/home-page/values.yaml
+  #   createNamespace: true

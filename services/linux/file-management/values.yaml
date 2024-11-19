@@ -1,0 +1,140 @@
+# Global settings for the linux-lab Helm chart
+name: file-management-lab
+namespace: labs
+
+# Autoscaling settings
+autoscaling:
+  enabled: false
+
+# Deployment settings
+replicaCount: 1
+
+appLabels:
+  app: "devopclinics-lab"
+  instance: "file-management"
+
+
+# Image settings
+image:
+  repository: dclinics/linux-labs
+  tag: "v5"
+  pullPolicy: IfNotPresent
+
+# Service settings
+service:
+  name: file-lab-service
+  type: NodePort
+  port: 5000           # The port on which your app listens
+  targetPort: 5000     # The port in the container
+  nodePort: 30003  
+
+# Annotations and labels for the pods
+podAnnotations: {}
+podLabels: {}
+
+# Image pull secrets
+imagePullSecrets: []
+
+# Security context for the pod and container
+podSecurityContext: {}
+securityContext: {}
+
+# Probes for liveness and readiness
+livenessProbe:
+  httpGet:
+    path: /
+    port: 5000
+  initialDelaySeconds: 5
+  timeoutSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /
+    port: 5000
+  initialDelaySeconds: 5
+  timeoutSeconds: 5
+
+# Resource requests and limits
+resources: {}
+
+# Volume mounts and volumes
+volumeMounts:
+  - name: questions-volume
+    mountPath: /app/config
+
+volumes:
+  - name: questions-volume
+    configMap:
+      name: file-management-questions
+
+# Node selector, affinity, and tolerations
+nodeSelector: {}
+affinity: {}
+tolerations: {}
+
+selector:
+  app.kubernetes.io/name: devopclinics-lab
+  app.kubernetes.io/instance: file-management
+
+# Ingress settings
+ingress:
+  enabled: false
+  hosts: []
+  tls: false
+
+
+# ConfigMap data specific to the service
+configData:
+  configMapName: "linux-file-management-devopclinics-lab-questions"
+  config:
+    title: "Linux File management lab"
+  questions: 
+    - question: "Create an empty file named 'example.txt' in the current directory."
+      answer: "touch example.txt"
+    - question: "Create a directory named 'project' in your home directory."
+      answer: "mkdir ~/project"
+    - question: "Copy the file 'example.txt' to the 'project' directory."
+      answer: "cp example.txt ~/project/"
+    - question: "Move the file 'example.txt' from the current directory to the 'project' directory."
+      answer: "mv example.txt ~/project/"
+    - question: "Rename the file 'example.txt' in the 'project' directory to 'example-renamed.txt'."
+      answer: "mv ~/project/example.txt ~/project/example-renamed.txt"
+    - question: "Remove the file 'example-renamed.txt' from the 'project' directory."
+      answer: "rm ~/project/example-renamed.txt"
+    - question: "Delete the directory 'project' and all its contents."
+      answer: "rm -r ~/project"
+    - question: "List all files and directories in the current directory, including hidden ones."
+      answer: "ls -a"
+    - question: "Display detailed information about the files in the current directory."
+      answer: "ls -l"
+    - question: "Show the first 10 lines of the file 'document.txt'."
+      answer: "head document.txt"
+    - question: "Show the last 10 lines of the file 'document.txt'."
+      answer: "tail document.txt"
+    - question: "Create a symbolic link named 'shortcut' that points to 'document.txt'."
+      answer: "ln -s document.txt shortcut"
+    - question: "Change the permissions of 'document.txt' to read and write for the owner, and read-only for the group and others."
+      answer: "chmod 644 document.txt"
+    - question: "Change the owner of 'document.txt' to the user 'admin'."
+      answer: "sudo chown admin document.txt"
+    - question: "Change the group ownership of 'document.txt' to the group 'staff'."
+      answer: "sudo chown :staff document.txt"
+    - question: "Find all files named 'notes.txt' in the current directory and its subdirectories."
+      answer: "find . -name 'notes.txt'"
+    - question: "Display the contents of 'document.txt' page by page."
+      answer: "less document.txt"
+    - question: "Count the number of lines, words, and characters in 'document.txt'."
+      answer: "wc document.txt"
+    - question: "Compress the file 'largefile.txt' using gzip."
+      answer: "gzip largefile.txt"
+    - question: "Extract the contents of 'largefile.txt.gz'."
+      answer: "gunzip largefile.txt.gz"
+    - question: "Archive the directory 'project' into a file named 'project.tar'."
+      answer: "tar -cvf project.tar project"
+    - question: "Extract the contents of 'project.tar' into the current directory."
+      answer: "tar -xvf project.tar"
+    - question: "Search for the word 'error' in 'logfile.txt' and display matching lines."
+      answer: "grep 'error' logfile.txt"
+    - question: "Display the size of the file 'document.txt' in human-readable format."
+      answer: "du -h document.txt"
+    - question: "Create a hard link named 'hardlink' to the file 'document.txt'."
+      answer: "ln document.txt hardlink"

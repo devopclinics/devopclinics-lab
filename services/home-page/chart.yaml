@@ -1,0 +1,5 @@
+apiVersion: v2
+name: lab-home-page
+description: A Helm subchart for the the lab-home-page
+version: 0.1.0
+appVersion: "1.0"

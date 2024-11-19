@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "devopclinics-lab.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "devopclinics-lab.labels" . | nindent 4 }}
+    app: {{ .Values.appLabels.app }}
+    instance: {{ .Values.appLabels.instance }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: {{ .Values.appLabels.app }}
+    instance: {{ .Values.appLabels.instance }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      {{- if eq .Values.service.type "NodePort" }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}

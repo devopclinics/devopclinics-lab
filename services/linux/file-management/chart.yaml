@@ -1,0 +1,5 @@
+apiVersion: v2
+name: linux-file-management
+description: A Helm subchart for the file-management-lab
+version: 0.1.0
+appVersion: "1.0"

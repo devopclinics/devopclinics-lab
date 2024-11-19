@@ -1,0 +1,139 @@
+# Global settings for the linux-lab Helm chart
+name: linux-user-management-lab
+namespace: labs
+
+# Autoscaling settings
+autoscaling:
+  enabled: false
+
+# Deployment settings
+replicaCount: 1
+
+appLabels:
+  app: "devopclinics-lab"
+  instance: "linux-user-management"
+
+
+# Image settings
+image:
+  repository: dclinics/linux-labs
+  tag: "v5"
+  pullPolicy: IfNotPresent
+
+# Service settings
+service:
+  name: linux-user-lab-service
+  type: NodePort
+  port: 5000           # The port on which your app listens
+  targetPort: 5000     # The port in the container
+  nodePort: 30001  
+
+# Annotations and labels for the pods
+podAnnotations: {}
+podLabels: {}
+
+# Image pull secrets
+imagePullSecrets: []
+
+# Security context for the pod and container
+podSecurityContext: {}
+securityContext: {}
+
+# Probes for liveness and readiness
+livenessProbe:
+  httpGet:
+    path: /
+    port: 5000
+  initialDelaySeconds: 5
+  timeoutSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /
+    port: 5000
+  initialDelaySeconds: 5
+  timeoutSeconds: 5
+
+# Resource requests and limits
+resources: {}
+
+# Volume mounts and volumes
+volumeMounts:
+  - name: questions-volume
+    mountPath: /app/config
+volumes:
+  - name: questions-volume
+    configMap:
+      name: linux-user-management-questions
+
+# Node selector, affinity, and tolerations
+nodeSelector: {}
+affinity: {}
+tolerations: {}
+
+selector:
+  app.kubernetes.io/name: devopclinics-lab
+  app.kubernetes.io/instance: linux-user-management
+
+# Ingress settings
+ingress:
+  enabled: false
+  hosts: []
+  tls: false
+
+
+# ConfigMap data specific to the service
+configData:
+  configMapName: "linux-user-management-devopclinics-lab-questions"
+  config:
+    title: "Linux User Management lab"
+  questions: 
+    - question: "Create a new user named 'developer'."
+      answer: "sudo useradd developer"
+    - question: "Set the password for the user 'developer' to 'password123'."
+      answer: "sudo passwd developer"
+    - question: "Create a new group called 'adminteam'."
+      answer: "sudo groupadd adminteam"
+    - question: "Add the user 'developer' to the 'adminteam' group."
+      answer: "sudo usermod -aG adminteam developer"
+    - question: "Delete the user 'developer' and remove their home directory."
+      answer: "sudo userdel -r developer"
+    - question: "Create a new user named 'tester' with a home directory at '/home/tester'."
+      answer: "sudo useradd -m -d /home/tester tester"
+    - question: "Set the shell for the user 'tester' to '/bin/bash'."
+      answer: "sudo usermod -s /bin/bash tester"
+    - question: "Lock the user 'tester' to prevent them from logging in."
+      answer: "sudo usermod -L tester"
+    - question: "Unlock the user 'tester' so they can log in again."
+      answer: "sudo usermod -U tester"
+    - question: "Change the primary group of the user 'tester' to 'adminteam'."
+      answer: "sudo usermod -g adminteam tester"
+    - question: "Create a new group named 'developers'."
+      answer: "sudo groupadd developers"
+    - question: "Add the user 'tester' to the 'developers' group."
+      answer: "sudo usermod -aG developers tester"
+    - question: "Remove the user 'tester' from the 'developers' group."
+      answer: "sudo gpasswd -d tester developers"
+    - question: "Set an expiration date of '2024-12-31' for the user 'tester'."
+      answer: "sudo chage -E 2024-12-31 tester"
+    - question: "Check the password aging information for the user 'tester'."
+      answer: "sudo chage -l tester"
+    - question: "Create a new user named 'auditor' without a home directory."
+      answer: "sudo useradd -M auditor"
+    - question: "Force the user 'tester' to change their password at the next login."
+      answer: "sudo passwd --expire tester"
+    - question: "Change the user ID (UID) of 'tester' to '1500'."
+      answer: "sudo usermod -u 1500 tester"
+    - question: "Change the group ID (GID) of the 'developers' group to '1600'."
+      answer: "sudo groupmod -g 1600 developers"
+    - question: "Remove the 'developers' group from the system."
+      answer: "sudo groupdel developers"
+    - question: "Create a new system user named 'backupuser' with no login shell."
+      answer: "sudo useradd -r -s /usr/sbin/nologin backupuser"
+    - question: "Set the user 'developer' to have read, write, and execute permissions on their home directory, but only read and execute permissions for the group and others."
+      answer: "sudo chmod 755 /home/developer"
+    - question: "Change the ownership of the '/var/www' directory to the user 'developer' and the group 'adminteam'."
+      answer: "sudo chown developer:adminteam /var/www"
+    - question: "Create a new user named 'dataprocessor' with a specific UID of 2001."
+      answer: "sudo useradd -u 2001 dataprocessor"
+    - question: "Add a comment 'Database Administrator' to the user 'dbadmin'."
+      answer: "sudo usermod -c 'Database Administrator' dbadmin"

@@ -17,7 +17,7 @@ appLabels:
 # Image settings
 image:
   repository: dclinics/linux-labs
-  tag: "latest"
+  tag: "v7"
   pullPolicy: IfNotPresent
 
 # Service settings

@@ -2,23 +2,9 @@
 name: linux-user-management-lab
 namespace: labs
 
-# Autoscaling settings
-autoscaling:
-  enabled: false
-
-# Deployment settings
-replicaCount: 1
-
 appLabels:
   app: "devopclinics-lab"
   instance: "linux-user-management"
-
-
-# Image settings
-image:
-  repository: dclinics/linux-labs
-  tag: "v7"
-  pullPolicy: IfNotPresent
 
 # Service settings
 service:
@@ -28,58 +14,14 @@ service:
   targetPort: 5000     # The port in the container
   nodePort: 30001  
 
-# Annotations and labels for the pods
-podAnnotations: {}
-podLabels: {}
-
-# Image pull secrets
-imagePullSecrets: []
-
-# Security context for the pod and container
-podSecurityContext: {}
-securityContext: {}
-
-# Probes for liveness and readiness
-livenessProbe:
-  httpGet:
-    path: /
-    port: 5000
-  initialDelaySeconds: 5
-  timeoutSeconds: 5
-readinessProbe:
-  httpGet:
-    path: /
-    port: 5000
-  initialDelaySeconds: 5
-  timeoutSeconds: 5
-
-# Resource requests and limits
-resources: {}
-
-# Volume mounts and volumes
-volumeMounts:
-  - name: questions-volume
-    mountPath: /app/config
 volumes:
   - name: questions-volume
     configMap:
       name: linux-user-management-questions
 
-# Node selector, affinity, and tolerations
-nodeSelector: {}
-affinity: {}
-tolerations: {}
-
 selector:
   app.kubernetes.io/name: devopclinics-lab
   app.kubernetes.io/instance: linux-user-management
-
-# Ingress settings
-ingress:
-  enabled: false
-  hosts: []
-  tls: false
-
 
 # ConfigMap data specific to the service
 configData:

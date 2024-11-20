@@ -8,6 +8,7 @@ releases:
     chart: /home/dev/linux-lab/devopclinics-lab
     values:
       - /home/dev/linux-lab/devopclinics-lab/services/linux/user-management/values.yaml
+      - /home/dev/linux-lab/devopclinics-lab/values.yaml
     createNamespace: true
 
   - name: linux-file-management
@@ -15,6 +16,7 @@ releases:
     chart: /home/dev/linux-lab/devopclinics-lab
     values:
       - /home/dev/linux-lab/devopclinics-lab/services/linux/file-management/values.yaml
+      - /home/dev/linux-lab/devopclinics-lab/values.yaml
     createNamespace: true
 
   # - name: lab-home-page
